@@ -1,0 +1,3 @@
+# Questões
+## 2 c)
+As classes com menor cobertura são a CuponEuromillions e a BoundedSetOfNaturals e os métodos com menor cobertura são o format e o countDisp (CuponEuromillions), o hashCode (Dip), e o fromArray, add, hashCode, size e intersects (BoundedSetOfNaturals). À exceção dos métodos equals e hashCode que são métodos com um protocolo de implementação definido, e por isso não necessitaram de ser testados, os restantes métodos com menor cobertura, sendo que são métodos implementados pelo programador, podem e devem ser testados para garantir que estão a funcionar corretamente.
