@@ -1,0 +1,254 @@
+{
+  "id": "c8fd6425-cc30-4e57-a165-49c1ae2b0f39",
+  "version": "2.0",
+  "name": "lab4_2_a",
+  "url": "https://blazedemo.com",
+  "tests": [{
+    "id": "7b900b51-9506-404a-938b-9637a4fc3ba7",
+    "name": "lab4_2_a",
+    "commands": [{
+      "id": "2a5cf4e0-ec87-4ef9-9d03-425ed39ce803",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "1695079e-cabe-421b-8eab-2977dd21e689",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "780x688",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "7664fe79-dd96-47e7-b410-6bb9c0c1e6c0",
+      "comment": "",
+      "command": "click",
+      "target": "css=h1",
+      "targets": [
+        ["css=h1", "css:finder"],
+        ["xpath=//h1", "xpath:position"],
+        ["xpath=//h1[contains(.,'Welcome to the Simple Travel Agency!')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "54bb4951-f5d7-409d-ae31-6bbf4f6d0e94",
+      "comment": "",
+      "command": "assertTitle",
+      "target": "BlazeDemo",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "3ec0166b-caf5-4de9-af40-048f6d52a500",
+      "comment": "",
+      "command": "click",
+      "target": "name=fromPort",
+      "targets": [
+        ["name=fromPort", "name"],
+        ["css=.form-inline:nth-child(1)", "css:finder"],
+        ["xpath=//select[@name='fromPort']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3b61afbe-3021-4235-b1ce-a42c91947117",
+      "comment": "",
+      "command": "select",
+      "target": "name=fromPort",
+      "targets": [],
+      "value": "label=Philadelphia"
+    }, {
+      "id": "b00c9b7e-f02d-4e76-9842-0d61808863cb",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "name=fromPort",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f21cbfde-0ef1-4402-8e19-e4d2884d5d23",
+      "comment": "",
+      "command": "click",
+      "target": "name=toPort",
+      "targets": [
+        ["name=toPort", "name"],
+        ["css=.form-inline:nth-child(4)", "css:finder"],
+        ["xpath=//select[@name='toPort']", "xpath:attributes"],
+        ["xpath=//select[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1a4f160c-c08f-49cd-b850-e6a706526513",
+      "comment": "",
+      "command": "select",
+      "target": "name=toPort",
+      "targets": [],
+      "value": "label=Dublin"
+    }, {
+      "id": "572d1a87-b2cf-4934-aea5-583f849a6d8d",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=.btn-primary",
+      "targets": [
+        ["css=.btn-primary", "css:finder"],
+        ["xpath=//input[@value='Find Flights']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "2f118ad4-aa42-4c8f-b700-351d9087f1b7",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn-primary",
+      "targets": [
+        ["css=.btn-primary", "css:finder"],
+        ["xpath=//input[@value='Find Flights']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1c990275-38bd-4e19-bcdb-f6c3c110949d",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=tr:nth-child(1) > td:nth-child(7)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "1e37fb20-47d0-45b5-b46d-4f60daeefa99",
+      "comment": "",
+      "command": "click",
+      "target": "css=tr:nth-child(1) .btn",
+      "targets": [
+        ["css=tr:nth-child(1) .btn", "css:finder"],
+        ["xpath=//input[@value='Choose This Flight']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3a1b608a-900e-4c77-9b87-d9f6fa2eadd6",
+      "comment": "",
+      "command": "assertEditable",
+      "target": "id=inputName",
+      "targets": [
+        ["id=inputName", "id"],
+        ["name=inputName", "name"],
+        ["css=#inputName", "css:finder"],
+        ["xpath=//input[@id='inputName']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a6efe79c-424f-4dcd-94e2-9090aadf265d",
+      "comment": "",
+      "command": "type",
+      "target": "id=inputName",
+      "targets": [
+        ["id=inputName", "id"],
+        ["name=inputName", "name"],
+        ["css=#inputName", "css:finder"],
+        ["xpath=//input[@id='inputName']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "Vicente"
+    }, {
+      "id": "008dd75e-7b88-4dcc-a0b8-804825102ae5",
+      "comment": "",
+      "command": "click",
+      "target": "id=address",
+      "targets": [
+        ["id=address", "id"],
+        ["name=address", "name"],
+        ["css=#address", "css:finder"],
+        ["xpath=//input[@id='address']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c1ce03bc-28fe-4e07-8a98-d67761b5ed88",
+      "comment": "",
+      "command": "type",
+      "target": "id=address",
+      "targets": [
+        ["id=address", "id"],
+        ["name=address", "name"],
+        ["css=#address", "css:finder"],
+        ["xpath=//input[@id='address']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "Bué Longe"
+    }, {
+      "id": "2fea21a1-54d0-4e73-b93f-d9f65506a39f",
+      "comment": "",
+      "command": "assertNotChecked",
+      "target": "id=rememberMe",
+      "targets": [
+        ["id=rememberMe", "id"],
+        ["name=rememberMe", "name"],
+        ["css=#rememberMe", "css:finder"],
+        ["xpath=//input[@id='rememberMe']", "xpath:attributes"],
+        ["xpath=//label/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ddb4e10a-4a8c-413e-86cf-6097bc9a4fa2",
+      "comment": "",
+      "command": "click",
+      "target": "id=rememberMe",
+      "targets": [
+        ["id=rememberMe", "id"],
+        ["name=rememberMe", "name"],
+        ["css=#rememberMe", "css:finder"],
+        ["xpath=//input[@id='rememberMe']", "xpath:attributes"],
+        ["xpath=//label/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c07f5025-5333-4f1c-9580-6d8c6775c1a8",
+      "comment": "",
+      "command": "assertChecked",
+      "target": "id=rememberMe",
+      "targets": [
+        ["id=rememberMe", "id"],
+        ["name=rememberMe", "name"],
+        ["css=#rememberMe", "css:finder"],
+        ["xpath=//input[@id='rememberMe']", "xpath:attributes"],
+        ["xpath=//label/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d2eef59b-c0f5-4b03-b8b0-e2bd6f342d11",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn-primary",
+      "targets": [
+        ["css=.btn-primary", "css:finder"],
+        ["xpath=//input[@value='Purchase Flight']", "xpath:attributes"],
+        ["xpath=//div[11]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e83df04b-a373-424e-999b-b7a050b62d04",
+      "comment": "",
+      "command": "assertNotText",
+      "target": "css=tr:nth-child(4) > td:nth-child(2)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "7d0ad57c-ea53-4a0a-bee0-91de95c35ed5",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=h1",
+      "targets": [],
+      "value": "Thank you for your purchase today!"
+    }]
+  }],
+  "suites": [{
+    "id": "369bec01-5bc8-4855-a870-75600c615b92",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": ["https://blazedemo.com/"],
+  "plugins": []
+}
