@@ -9,12 +9,20 @@ public class CacheObject {
 	private SearchType searchType;
 	private DataSource dataSource;
 	private long timestamp;
+	static final long expiration_time = 600000;
+	
+	public CacheObject(Object data, SearchType searchType, DataSource dataSource) {
+		this.data = data;
+		this.searchType = searchType;
+		this.dataSource = dataSource;
+		this.timestamp = System.currentTimeMillis();
+	}
 	
 	public CacheObject(Object data, SearchType searchType, DataSource dataSource, long timestamp) {
 		this.data = data;
 		this.searchType = searchType;
 		this.dataSource = dataSource;
-		this.timestamp = System.currentTimeMillis() - timestamp;
+		this.timestamp = System.currentTimeMillis() - expiration_time + timestamp;
 	}
 	
 	public Object getData() {
@@ -35,5 +43,9 @@ public class CacheObject {
 
 	public void updateTimestamp() {
 		this.timestamp = System.currentTimeMillis();
+	}
+
+	public boolean isExpired() {
+		return System.currentTimeMillis() - timestamp > expiration_time;
 	}
 }

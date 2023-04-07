@@ -42,49 +42,24 @@ public class WeatherBitData {
 		return city_name;
 	}
 
-	public void setCity_name(String city_name) {
-		this.city_name = city_name;
-	}
-
 	public String getCountry_code() {
 		return country_code;
-	}
-
-	public void setCountry_code(String country_code) {
-		this.country_code = country_code;
 	}
 
 	public Double getLat() {
 		return lat;
 	}
 
-	public void setLat(Double lat) {
-		this.lat = lat;
-	}
-
 	public Double getLon() {
 		return lon;
-	}
-
-	public void setLon(Double lon) {
-		this.lon = lon;
 	}
 
 	public SearchType getType() {
 		return type;
 	}
 
-	public void setType(SearchType type) {
-		this.type = type;
-	}
-
 	public Object getData() {
 		return data;
 	}
-
-	public void setData(Object data) {
-		this.data = data;
-	}
-
 	
 }

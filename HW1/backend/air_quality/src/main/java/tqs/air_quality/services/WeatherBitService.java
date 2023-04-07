@@ -8,9 +8,11 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import tqs.air_quality.models.DataSource;
 import tqs.air_quality.models.SearchType;
 import tqs.air_quality.models.WeatherBitData;
 import tqs.air_quality.serializers.*;
+import tqs.air_quality.cache.*;
 
 @Service
 public class WeatherBitService {
@@ -24,34 +26,58 @@ public class WeatherBitService {
 	private final RestTemplate restTemplate = new RestTemplate();
 	private final static ObjectMapper mapper = new ObjectMapper();
 
-	public ResponseEntity<WeatherBitData> getCurrent(String city) {
+	public ResponseEntity<Object> getCurrent(String city) {
+		Object cacheObject = Cache.get(city, SearchType.CURRENT, null);
+		if (cacheObject != null) {
+			return ResponseEntity.status(200).body(cacheObject);
+		}
 		ResponseEntity<String> response = apiCall(SearchType.CURRENT, city, null, null);
 		if (response.getStatusCode().value() == 200) {
-			return ResponseEntity.status(response.getStatusCode()).body(parseFromWBCurrent(response.getBody()));
+			WeatherBitData data = parseFromWBCurrent(response.getBody());
+			Cache.add(city, SearchType.CURRENT, DataSource.WEATHERBIT, data);
+			return ResponseEntity.status(response.getStatusCode()).body(data);
 		}
 		return ResponseEntity.status(response.getStatusCode()).body(null);
 	}
 
-	public ResponseEntity<WeatherBitData> getHistorical(String city) {
+	public ResponseEntity<Object> getHistorical(String city) {
+		Object cacheObject = Cache.get(city, SearchType.HISTORY, null);
+		if (cacheObject != null) {
+			return ResponseEntity.status(200).body(cacheObject);
+		}
 		ResponseEntity<String> response = apiCall(SearchType.HISTORY, city, null, null);
 		if (response.getStatusCode().value() == 200) {
-			return ResponseEntity.status(response.getStatusCode()).body(parseFromWBHistory(response.getBody()));
+			WeatherBitData data = parseFromWBHistory(response.getBody());
+			Cache.add(city, SearchType.HISTORY, DataSource.WEATHERBIT, data);
+			return ResponseEntity.status(response.getStatusCode()).body(data);
 		}
 		return ResponseEntity.status(response.getStatusCode()).body(null);
 	}
 
-	public ResponseEntity<WeatherBitData> getHistorical(String city, String start_date, String end_date) {
+	public ResponseEntity<Object> getHistorical(String city, String start_date, String end_date) {
+		Object cacheObject = Cache.get(city+"/"+start_date+"/"+end_date, SearchType.HISTORY, null);
+		if (cacheObject != null) {
+			return ResponseEntity.status(200).body(cacheObject);
+		}
 		ResponseEntity<String> response = apiCall(SearchType.HISTORY, city, start_date, end_date);
 		if (response.getStatusCode().value() == 200) {
-			return ResponseEntity.status(response.getStatusCode()).body(parseFromWBHistory(response.getBody()));
+			WeatherBitData data = parseFromWBHistory(response.getBody());
+			Cache.add(city + "/" + start_date + "/" + end_date, SearchType.HISTORY, DataSource.WEATHERBIT, data, 120000);
+			return ResponseEntity.status(response.getStatusCode()).body(data);
 		}
 		return ResponseEntity.status(response.getStatusCode()).body(null);
 	}
 
-	public ResponseEntity<WeatherBitData> getForecast(String city) {
+	public ResponseEntity<Object> getForecast(String city) {
+		Object cacheObject = Cache.get(city, SearchType.FORECAST, null);
+		if (cacheObject != null) {
+			return ResponseEntity.status(200).body(cacheObject);
+		}
 		ResponseEntity<String> response = apiCall(SearchType.FORECAST, city, null, null);
 		if (response.getStatusCode().value() == 200) {
-			return ResponseEntity.status(response.getStatusCode()).body(parseFromWBForecast(response.getBody()));
+			WeatherBitData data = parseFromWBForecast(response.getBody());
+			Cache.add(city, SearchType.FORECAST, DataSource.WEATHERBIT, data);
+			return ResponseEntity.status(response.getStatusCode()).body(data);
 		}
 		return ResponseEntity.status(response.getStatusCode()).body(null);
 	}
@@ -82,16 +108,15 @@ public class WeatherBitService {
 		}
 	}
 
-	private static WeatherBitData parseFromWBCurrent(String response) {
+	public static WeatherBitData parseFromWBCurrent(String response) {
 		try {
 			return new WeatherBitData(mapper.readValue(response, WBCurrentResponse.class));
 		} catch (JsonProcessingException e) {
-			System.out.println(e.getMessage());
 			return null;
 		}
 	}
 
-	private static WeatherBitData parseFromWBHistory(String response) {
+	public static WeatherBitData parseFromWBHistory(String response) {
 		try {
 			return new WeatherBitData(mapper.readValue(response, WBHistoryResponse.class));
 
@@ -100,7 +125,7 @@ public class WeatherBitService {
 		}
 	}
 
-	private static WeatherBitData parseFromWBForecast(String response) {
+	public static WeatherBitData parseFromWBForecast(String response) {
 		try {
 			return new WeatherBitData(mapper.readValue(response, WBForecastResponse.class));
 
