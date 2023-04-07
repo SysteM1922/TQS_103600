@@ -1,0 +1,137 @@
+/* Reset básico */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f5f5f5;
+	color: #333;
+}
+
+/* Estilos da sidebar */
+.sidebar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 200px;
+	height: 100%;
+	background-color: #2c3e50;
+	padding: 20px 0;
+}
+
+.sidebar nav ul {
+	list-style: none;
+}
+
+.sidebar nav ul li {
+	margin-bottom: 10px;
+}
+
+.sidebar nav ul li a {
+	display: block;
+	color: #fff;
+	text-decoration: none;
+	padding: 8px 16px;
+	border-radius: 4px;
+	transition: background-color 0.3s;
+}
+
+.sidebar nav ul li a:hover {
+	background-color: #34495e;
+}
+
+/* Estilos do conteúdo */
+.content {
+	margin-left: 200px;
+	padding: 200px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+section {
+	display: none;
+}
+
+section#current {
+	display: block;
+}
+
+.form-container {
+	display: flex;
+	flex-direction: column;
+}
+
+.input-row {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 1rem;
+}
+
+.input-city,
+.input-source,
+.input-date {
+	margin-left: 0.5rem;
+}
+
+.input-date+label {
+	margin-left: 1rem;
+}
+
+
+input[type="text"],
+select {
+	padding: 6px 12px;
+	font-size: 14px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+input[type="text"] {
+	margin-right: 10px;
+}
+
+button:hover {
+	background-color: #45a049;
+}
+
+/* Estilos dos resultados */
+#results {
+	display: none;
+	border-style: dashed;
+	margin: 20px;
+	padding: 20px;
+}
+
+h1 {
+	text-align: center;
+	font-size: 3rem;
+	font-weight: 1000;
+	padding-bottom: 20px;
+}
+
+table {
+	border-style: dashed;
+	border-collapse: collapse;
+	max-width: 800px;
+	margin: 20px auto;
+}
+
+th {
+	background-color: #4CAF50;
+	color: white;
+	padding: 8px;
+}
+
+td,
+th {
+	padding: 8px;
+}
+
+td {
+	color: green;
+}
