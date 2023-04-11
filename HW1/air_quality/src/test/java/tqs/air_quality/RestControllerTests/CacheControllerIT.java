@@ -1,5 +1,6 @@
 package tqs.air_quality.RestControllerTests;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -26,6 +27,11 @@ public class CacheControllerIT {
 	
 	@Autowired
 	private MockMvc mvc;
+
+	@BeforeEach
+	public void resetCache() {
+		Cache.reset();
+	}
 
 	@Test
 	public void whenGetCacheStats_thenReturnCacheStats() throws Exception {

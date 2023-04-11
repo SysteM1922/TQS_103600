@@ -9,21 +9,21 @@ public class CacheObject {
 	private WBResponse data;
 	private SearchType searchType;
 	private DataSource dataSource;
-	private long timestamp;
-	static final long expiration_time = 600000;
+	private long timeStamp;
+	static final long EXPIRATIONTIME = 600000;
 	
 	public CacheObject(WBResponse data, SearchType searchType, DataSource dataSource) {
 		this.data = data;
 		this.searchType = searchType;
 		this.dataSource = dataSource;
-		this.timestamp = System.currentTimeMillis();
+		this.timeStamp = System.currentTimeMillis();
 	}
 	
-	public CacheObject(WBResponse data, SearchType searchType, DataSource dataSource, long timestamp) {
+	public CacheObject(WBResponse data, SearchType searchType, DataSource dataSource, long timeStamp) {
 		this.data = data;
 		this.searchType = searchType;
 		this.dataSource = dataSource;
-		this.timestamp = System.currentTimeMillis() - expiration_time + timestamp;
+		this.timeStamp = System.currentTimeMillis() - EXPIRATIONTIME + timeStamp;
 	}
 	
 	public WBResponse getData() {
@@ -39,15 +39,15 @@ public class CacheObject {
 	}
 	
 	public long getTimestamp() {
-		return timestamp;
+		return timeStamp;
 	}
 
 	public void updateTimestamp() {
-		this.timestamp = System.currentTimeMillis();
+		this.timeStamp = System.currentTimeMillis();
 	}
 
 	public boolean isExpired() {
-		return System.currentTimeMillis() - timestamp > expiration_time;
+		return System.currentTimeMillis() - timeStamp > EXPIRATIONTIME;
 	}
 	
 }

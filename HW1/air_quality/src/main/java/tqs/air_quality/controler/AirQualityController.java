@@ -31,14 +31,14 @@ public class AirQualityController {
 
 	@GetMapping("/history/{city}")
 	public ResponseEntity<WBResponse> getHistoryAirQuality(@PathVariable String city) {
-		ResponseEntity<WBResponse> response = weatherBitService.getHistory(city);
+		ResponseEntity<WBResponse> response = weatherBitService.getHistory(city, null, null);
 		return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
 	}
 
-	@GetMapping("/history/{city}/{start_date}/{end_date}")
-	public ResponseEntity<WBResponse> getHistoryAirQuality(@PathVariable String city, @PathVariable String start_date,
-			@PathVariable String end_date) {
-		ResponseEntity<WBResponse> response = weatherBitService.getHistory(city, start_date, end_date);
+	@GetMapping("/history/{city}/{startDate}/{endDate}")
+	public ResponseEntity<WBResponse> getHistoryAirQuality(@PathVariable String city, @PathVariable String startDate,
+			@PathVariable String endDate) {
+		ResponseEntity<WBResponse> response = weatherBitService.getHistory(city, startDate, endDate);
 		return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
 	}
 

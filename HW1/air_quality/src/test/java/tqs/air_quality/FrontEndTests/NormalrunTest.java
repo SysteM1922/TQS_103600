@@ -1,4 +1,4 @@
-/*package tqs.air_quality.FrontEndTests;
+package tqs.air_quality.FrontEndTests;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -118,4 +118,4 @@ public class NormalrunTest {
         assertThat(driver.findElement(By.id("hits")).getText(), is(hits + 1));
         assertThat(driver.findElement(By.id("misses")).getText(), is(misses + 3));
     }
-}*/
+}

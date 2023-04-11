@@ -5,9 +5,9 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-@Data
+@EqualsAndHashCode(callSuper = false)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class WBHistoryResponse implements WBResponse {
 
@@ -22,7 +22,7 @@ public class WBHistoryResponse implements WBResponse {
 	@JsonProperty("data")
 	public List<WBHistoryData> data;
 
-	@Data
+	@EqualsAndHashCode(callSuper = false)
 	@JsonIgnoreProperties(ignoreUnknown = true)
 	public static class WBHistoryData implements WBData {
 

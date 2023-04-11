@@ -21,6 +21,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @WebMvcTest(CacheController.class)
 public class CacheControllerTest {
 
@@ -42,7 +44,7 @@ public class CacheControllerTest {
 		String response = result.getResponse().getContentAsString();
 		ObjectMapper mapper = new ObjectMapper();
 		CacheJson new_cache = mapper.readValue(response, CacheJson.class);
-		assert (new_cache.equals(cache));
+		assertEquals(new_cache, cache);
 		verify(cacheService, times(1)).getCacheStats();
 	}
 }

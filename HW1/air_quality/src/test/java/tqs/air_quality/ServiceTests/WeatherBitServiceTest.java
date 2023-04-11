@@ -12,6 +12,8 @@ import org.springframework.web.client.RestTemplate;
 import tqs.air_quality.models.serializers.*;
 import tqs.air_quality.services.WeatherBitService;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @ExtendWith(MockitoExtension.class)
 public class WeatherBitServiceTest {
 
@@ -40,9 +42,12 @@ public class WeatherBitServiceTest {
 		Mockito.when(restTemplate.getForEntity(CURRENT_URL + CITY + KEY, String.class))
 				.thenReturn(ResponseEntity.status(200).body(VALID_CURRENT_RESPONSE));
 		ResponseEntity<WBResponse> response = weatherBitService.getCurrent("Castelo Branco");
-		assert (response.getStatusCode().value() == 200);
+		assertEquals(200, response.getStatusCode().value());
 		WBCurrentResponse correct_response = WeatherBitService.parseWBCurrent(VALID_CURRENT_RESPONSE);
-		assert (response.getBody().equals(correct_response));
+		assertEquals(correct_response, response.getBody());
+		ResponseEntity<WBResponse> response2 = weatherBitService.getCurrent("Castelo Branco");
+		assertEquals(200, response2.getStatusCode().value());
+		assertEquals(correct_response, response2.getBody());
 	}
 
 	@Test
@@ -50,27 +55,30 @@ public class WeatherBitServiceTest {
 		Mockito.when(restTemplate.getForEntity(CURRENT_URL + INVALID_CITY + KEY, String.class))
 				.thenReturn(ResponseEntity.status(204).body(INVALID_RESPONSE));
 		ResponseEntity<WBResponse> response = weatherBitService.getCurrent("invalidCt");
-		assert (response.getStatusCode().value() == 204);
-		assert (response.getBody() == null);
+		assertEquals(204, response.getStatusCode().value());
+		assertEquals(null, response.getBody());
 	}
 
 	@Test
 	void whenRequestingHistoricalWeather_thenReturnCorrectHistoricalWeather() {
 		Mockito.when(restTemplate.getForEntity(HISTORY_URL + CITY + KEY, String.class))
 				.thenReturn(ResponseEntity.status(200).body(VALID_HISTORY_RESPONSE));
-		ResponseEntity<WBResponse> response = weatherBitService.getHistory("Castelo Branco");
-		assert (response.getStatusCode().value() == 200);
+		ResponseEntity<WBResponse> response = weatherBitService.getHistory("Castelo Branco", null, null);
+		assertEquals(200, response.getStatusCode().value());
 		WBHistoryResponse correct_response = WeatherBitService.parseWBHistory(VALID_HISTORY_RESPONSE);
-		assert (response.getBody().equals(correct_response));
+		assertEquals(correct_response, response.getBody());
+		ResponseEntity<WBResponse> response2 = weatherBitService.getHistory("Castelo Branco", null, null);
+		assertEquals(200, response2.getStatusCode().value());
+		assertEquals(correct_response, response2.getBody());
 	}
 	
 	@Test
 	void whenRequestingHistoricalWeather_thenReturnInvalidHistoricalWeather() {
 		Mockito.when(restTemplate.getForEntity(HISTORY_URL + INVALID_CITY + KEY, String.class))
 				.thenReturn(ResponseEntity.status(204).body(INVALID_RESPONSE));
-		ResponseEntity<WBResponse> response = weatherBitService.getHistory("invalidCt");
-		assert (response.getStatusCode().value() == 204);
-		assert (response.getBody() == null);
+		ResponseEntity<WBResponse> response = weatherBitService.getHistory("invalidCt", null, null);
+		assertEquals(204, response.getStatusCode().value());
+		assertEquals(null, response.getBody());
 	}
 
 	@Test
@@ -80,9 +88,25 @@ public class WeatherBitServiceTest {
 				.thenReturn(ResponseEntity.status(200).body(VALID_HISTORY_RESPONSE_WITH_DATES));
 		ResponseEntity<WBResponse> response = weatherBitService.getHistory("Castelo Branco", "2023-03-19",
 				"2023-03-20");
-		assert (response.getStatusCode().value() == 200);
 		WBHistoryResponse correct_response = WeatherBitService.parseWBHistory(VALID_HISTORY_RESPONSE_WITH_DATES);
-		assert (response.getBody().equals(correct_response));
+		assertEquals(200, response.getStatusCode().value());
+		assertEquals(correct_response, response.getBody());
+		ResponseEntity<WBResponse> response2 = weatherBitService.getHistory("Castelo Branco", "2023-03-19",
+				"2023-03-20");
+		assertEquals(200, response2.getStatusCode().value());
+		assertEquals(correct_response, response2.getBody());
+		Mockito.when(restTemplate.getForEntity(HISTORY_URL + CITY + KEY,
+				String.class))
+				.thenReturn(ResponseEntity.status(200).body(VALID_HISTORY_RESPONSE_WITH_DATES));
+		ResponseEntity<WBResponse> response3 = weatherBitService.getHistory("Castelo Branco", "2023-03-19", null);
+		assertEquals(200, response3.getStatusCode().value());
+		assertEquals(correct_response, response3.getBody());
+		Mockito.when(restTemplate.getForEntity(HISTORY_URL + CITY + KEY,
+				String.class))
+				.thenReturn(ResponseEntity.status(200).body(VALID_HISTORY_RESPONSE_WITH_DATES));
+		ResponseEntity<WBResponse> response4 = weatherBitService.getHistory("Castelo Branco", null, "2023-03-20");
+		assertEquals(200, response4.getStatusCode().value());
+		assertEquals(correct_response, response4.getBody());
 	}
 	
 	@Test
@@ -92,8 +116,8 @@ public class WeatherBitServiceTest {
 				String.class))
 				.thenReturn(ResponseEntity.status(204).body(INVALID_RESPONSE));
 		ResponseEntity<WBResponse> response = weatherBitService.getHistory("invalidCt", "2023-03-19", "2023-03-20");
-		assert (response.getStatusCode().value() == 204);
-		assert (response.getBody() == null);
+		assertEquals(204, response.getStatusCode().value());
+		assertEquals(null, response.getBody());
 	}
 
 	@Test
@@ -104,8 +128,8 @@ public class WeatherBitServiceTest {
 				.thenReturn(ResponseEntity.status(500).body(INVALID_HISTORY_RESPONSE_WITH_DATES));
 		ResponseEntity<WBResponse> response = weatherBitService.getHistory("Castelo Branco", "2023-03-19",
 				"2023-03-20");
-		assert (response.getStatusCode().value() == 500);
-		assert (response.getBody() == null);
+		assertEquals(500, response.getStatusCode().value());
+		assertEquals(null, response.getBody());
 	}
 
 	@Test
@@ -113,9 +137,12 @@ public class WeatherBitServiceTest {
 		Mockito.when(restTemplate.getForEntity(FORECAST_URL + CITY + KEY, String.class))
 				.thenReturn(ResponseEntity.status(200).body(VALID_FORECAST_RESPONSE));
 		ResponseEntity<WBResponse> response = weatherBitService.getForecast("Castelo Branco");
-		assert (response.getStatusCode().value() == 200);
+		assertEquals(200, response.getStatusCode().value());
 		WBForecastResponse correct_response = WeatherBitService.parseWBForecast(VALID_FORECAST_RESPONSE);
-		assert (response.getBody().equals(correct_response));
+		assertEquals(correct_response, response.getBody());
+		ResponseEntity<WBResponse> response2 = weatherBitService.getForecast("Castelo Branco");
+		assertEquals(200, response2.getStatusCode().value());
+		assertEquals(correct_response, response2.getBody());
 	}
 
 	@Test
@@ -123,7 +150,7 @@ public class WeatherBitServiceTest {
 		Mockito.when(restTemplate.getForEntity(FORECAST_URL + INVALID_CITY + KEY, String.class))
 				.thenReturn(ResponseEntity.status(204).body(INVALID_RESPONSE));
 		ResponseEntity<WBResponse> response = weatherBitService.getForecast("invalidCt");
-		assert (response.getStatusCode().value() == 204);
-		assert (response.getBody() == null);
+		assertEquals(204, response.getStatusCode().value());
+		assertEquals(null, response.getBody());
 	}
 }

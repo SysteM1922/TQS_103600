@@ -8,7 +8,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import tqs.air_quality.models.serializers.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class SerializersTest {
 
@@ -91,4 +92,158 @@ public class SerializersTest {
 		assertEquals("2023-04-06T21:00:00", response.data.get(1).datetime);
 	}
 
+	@Test
+	public void testWBData() {
+		assertThat(WBData.aqi).isNull();
+		assertThat(WBData.co).isNull();
+		assertThat(WBData.no2).isNull();
+		assertThat(WBData.o3).isNull();
+		assertThat(WBData.pm10).isNull();
+		assertThat(WBData.pm25).isNull();
+		assertThat(WBData.so2).isNull();
+	}
+
+	@Test
+	public void testWBresponse() {
+		assertThat(WBResponse.city_name).isNull();
+		assertThat(WBResponse.country_code).isNull();
+		assertThat(WBResponse.lat).isNull();
+		assertThat(WBResponse.lon).isNull();
+		assertThat(WBResponse.data).isNull();
+	}
+
+	@Test
+	public void testWBCurrentData() {
+		WBCurrentResponse.WBCurrentData data1 = new WBCurrentResponse.WBCurrentData();
+		data1.aqi = 42;
+		data1.co = 1.23;
+		data1.mold_level = 1;
+		data1.no2 = 0.5;
+		data1.o3 = 0.1;
+		data1.pm10 = 20.0;
+		data1.pm25 = 10.0;
+		data1.pollen_level_grass = 2;
+		data1.pollen_level_tree = 0;
+		data1.pollen_level_weed = 0;
+		data1.predominant_pollen_type = "grass";
+		data1.so2 = 0.2;
+
+		WBCurrentResponse.WBCurrentData data2 = new WBCurrentResponse.WBCurrentData();
+		data2.aqi = 42;
+		data2.co = 1.23;
+		data2.mold_level = 1;
+		data2.no2 = 0.5;
+		data2.o3 = 0.1;
+		data2.pm10 = 20.0;
+		data2.pm25 = 10.0;
+		data2.pollen_level_grass = 2;
+		data2.pollen_level_tree = 0;
+		data2.pollen_level_weed = 0;
+		data2.predominant_pollen_type = "grass";
+		data2.so2 = 0.2;
+
+		WBCurrentResponse.WBCurrentData data3 = new WBCurrentResponse.WBCurrentData();
+		data3.aqi = 42;
+		data3.co = 1.23;
+		data3.mold_level = 1;
+		data3.no2 = 0.5;
+		data3.o3 = 0.1;
+		data3.pm10 = 20.0;
+		data3.pm25 = 10.0;
+		data3.pollen_level_grass = 2;
+		data3.pollen_level_tree = 0;
+		data3.pollen_level_weed = 0;
+		data3.predominant_pollen_type = "tree";
+		data3.so2 = 0.2;
+
+		assertEquals(data1, data2);
+		assertEquals(data2, data1);
+
+		assertNotEquals(data1, data3);
+		assertNotEquals(data2, data3);
+
+		assertNotEquals(null, data1);
+	}
+
+	@Test
+	public void testWBHistoryData() {
+		WBHistoryResponse.WBHistoryData data1 = new WBHistoryResponse.WBHistoryData();
+		data1.aqi = 42;
+		data1.co = 1.23;
+		data1.no2 = 0.5;
+		data1.o3 = 0.1;
+		data1.pm10 = 20.0;
+		data1.pm25 = 10.0;
+		data1.so2 = 0.2;
+		data1.datetime = "2023-04-06T22:00:00";
+
+		WBHistoryResponse.WBHistoryData data2 = new WBHistoryResponse.WBHistoryData();
+		data2.aqi = 42;
+		data2.co = 1.23;
+		data2.no2 = 0.5;
+		data2.o3 = 0.1;
+		data2.pm10 = 20.0;
+		data2.pm25 = 10.0;
+		data2.so2 = 0.2;
+		data2.datetime = "2023-04-06T22:00:00";
+
+		WBHistoryResponse.WBHistoryData data3 = new WBHistoryResponse.WBHistoryData();
+		data3.aqi = 42;
+		data3.co = 1.23;
+		data3.no2 = 0.5;
+		data3.o3 = 0.1;
+		data3.pm10 = 20.0;
+		data3.pm25 = 10.0;
+		data3.so2 = 0.2;
+		data3.datetime = "2023-04-06T21:00:00";
+
+		assertEquals(data1, data2);
+		assertEquals(data2, data1);
+
+		assertNotEquals(data1, data3);
+		assertNotEquals(data2, data3);
+
+		assertNotEquals(null, data1);
+	}
+
+	@Test
+	public void testWBForecastData() {
+		WBForecastResponse.WBForecastData data1 = new WBForecastResponse.WBForecastData();
+		data1.aqi = 42;
+		data1.co = 1.23;
+		data1.no2 = 0.5;
+		data1.o3 = 0.1;
+		data1.pm10 = 20.0;
+		data1.pm25 = 10.0;
+		data1.so2 = 0.2;
+		data1.datetime = "2023-04-06T22:00:00";
+
+		WBForecastResponse.WBForecastData data2 = new WBForecastResponse.WBForecastData();
+		data2.aqi = 42;
+		data2.co = 1.23;
+		data2.no2 = 0.5;
+		data2.o3 = 0.1;
+		data2.pm10 = 20.0;
+		data2.pm25 = 10.0;
+		data2.so2 = 0.2;
+		data2.datetime = "2023-04-06T22:00:00";
+
+		WBForecastResponse.WBForecastData data3 = new WBForecastResponse.WBForecastData();
+		data3.aqi = 42;
+		data3.co = 1.23;
+		data3.no2 = 0.5;
+		data3.o3 = 0.1;
+		data3.pm10 = 20.0;
+		data3.pm25 = 10.0;
+		data3.so2 = 0.2;
+		data3.datetime = "2023-04-06T21:00:00";
+
+		assertEquals(data1, data2);
+		assertEquals(data2, data1);
+
+		assertNotEquals(data1, data3);
+		assertNotEquals(data2, data3);
+
+		assertNotEquals(null, data1);
+	}
 }

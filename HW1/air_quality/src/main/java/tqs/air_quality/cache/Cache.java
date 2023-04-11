@@ -9,26 +9,28 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
 import tqs.air_quality.models.DataSource;
 import tqs.air_quality.models.SearchType;
 import tqs.air_quality.models.serializers.WBResponse;
 
 public class Cache {
 	
-	private static Map<String, CacheObject> cache = new HashMap<>();
+	private static Map<String, CacheObject> map = new HashMap<>();
 	private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 	private static Integer requests = 0;
 	private static Integer hits = 0;
 	private static Integer misses = 0;
 
+	private Cache() {
+	}
+
 	static {
 		scheduler.scheduleAtFixedRate(new Runnable() {
-			@Override
 			public void run() {
-				for (Map.Entry<String, CacheObject> entry : cache.entrySet()) {
+				for (Map.Entry<String, CacheObject> entry : map.entrySet()) {
 					if (entry.getValue().isExpired()) {
-						cache.remove(entry.getKey());
+						map.remove(entry.getKey());
 					}
 				}
 			}
@@ -36,20 +38,20 @@ public class Cache {
 	}
 
 	public static void add(String searchName, SearchType type, DataSource source, WBResponse data) {
-		cache.put(searchName, new CacheObject(data, type, source));
+		map.put(searchName, new CacheObject(data, type, source));
 	}
 	
 	public static void add(String searchName, SearchType type, DataSource source,  WBResponse data, long timestamp) {
-		cache.put(searchName, new CacheObject(data, type, source, timestamp));
+		map.put(searchName, new CacheObject(data, type, source, timestamp));
 	}
 
 	public static WBResponse get(String searchName, SearchType type, DataSource source) {
 		requests++;
-		if (cache.isEmpty() || cache.get(searchName) == null) {
+		if (map.isEmpty() || map.get(searchName) == null) {
 			misses++;
 			return null;
 		}
-		for (Map.Entry<String, CacheObject> entry : cache.entrySet()) {
+		for (Map.Entry<String, CacheObject> entry : map.entrySet()) {
 			if (entry.getKey().equals(searchName) && entry.getValue().getSearchType().equals(type)
 					&& (source == null || entry.getValue().getDataSource().equals(source))) {
 				hits++;
@@ -65,7 +67,7 @@ public class Cache {
 		return new CacheJson(requests, hits, misses);
 	}
 
-	@Data
+	@EqualsAndHashCode(callSuper = false)
 	@JsonIgnoreProperties(ignoreUnknown = true)
 	public static class CacheJson {
 		@JsonProperty("requests")
@@ -88,7 +90,7 @@ public class Cache {
     }
 
 	public static Map<String, CacheObject> getCache() {
-		return cache;
+		return map;
 	}
 
 	public static Integer getRequests() {
@@ -104,7 +106,7 @@ public class Cache {
 	}
 
 	public static void reset() {
-		cache.clear();
+		map.clear();
 		requests = 0;
 		hits = 0;
 		misses = 0;

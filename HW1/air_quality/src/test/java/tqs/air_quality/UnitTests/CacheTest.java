@@ -21,14 +21,14 @@ public class CacheTest {
 	@BeforeEach
 	public void setUp() {
 		Cache.reset();
-		assertThat(Cache.getCache().size()).isEqualTo(0);
+		assertThat(Cache.getCache()).isEmpty();
 	}
 	
 	@Test
 	public void testAdd() {
-		assertThat(Cache.getCache().size()).isEqualTo(0);
+		assertThat(Cache.getCache()).isEmpty();
 		Cache.add("pesquisa", SearchType.CURRENT, DataSource.WEATHERBIT, data);
-		assertThat(Cache.getCache().size()).isEqualTo(1);
+		assertThat(Cache.getCache()).hasSize(1);
 	}
 	
 	@Test
@@ -37,20 +37,21 @@ public class CacheTest {
 		assertThat(Cache.get("pesquisa", SearchType.CURRENT, DataSource.WEATHERBIT)).isEqualTo(data);
 		Cache.add("pesquisa", SearchType.CURRENT, DataSource.WEATHERBIT, data2, 0);
 		assertThat(Cache.get("pesquisa", SearchType.CURRENT, DataSource.WEATHERBIT)).isEqualTo(data2);
-		assertThat(Cache.get("pesquisa", SearchType.FORECAST, DataSource.WEATHERBIT)).isEqualTo(null);
-		assertThat(Cache.get("pesquisa", SearchType.CURRENT, DataSource.OPENWEATHER)).isEqualTo(null);
+		assertThat(Cache.get("pesquisa", SearchType.FORECAST, DataSource.WEATHERBIT)).isNull();
+		assertThat(Cache.get("pesquisa", SearchType.CURRENT, DataSource.OPENWEATHER)).isNull();;
+		assertThat(Cache.get(null, SearchType.CURRENT, DataSource.WEATHERBIT)).isNull();;
 	}
 
 	@Test
 	public void testStats() {
 		Cache.add("pesquisa", SearchType.CURRENT, DataSource.WEATHERBIT, data);
-		assertThat(Cache.getRequests()).isEqualTo(0);
-		assertThat(Cache.getHits()).isEqualTo(0);
-		assertThat(Cache.getMisses()).isEqualTo(0);
+		assertThat(Cache.getRequests()).isZero();
+		assertThat(Cache.getHits()).isZero();
+		assertThat(Cache.getMisses()).isZero();
 		Cache.get("pesquisa", SearchType.CURRENT, DataSource.WEATHERBIT);
 		assertThat(Cache.getRequests()).isEqualTo(1);
 		assertThat(Cache.getHits()).isEqualTo(1);
-		assertThat(Cache.getMisses()).isEqualTo(0);
+		assertThat(Cache.getMisses()).isZero();
 		Cache.get("pesquisa2", SearchType.CURRENT, DataSource.WEATHERBIT);
 		Cache.add("pesquisa2", SearchType.CURRENT, DataSource.WEATHERBIT, data2, 0);
 		assertThat(Cache.getRequests()).isEqualTo(2);
@@ -73,12 +74,11 @@ public class CacheTest {
 		assertThat(Cache.getHits()).isEqualTo(2);
 		assertThat(Cache.getMisses()).isEqualTo(1);
 		Cache.reset();
-		assertThat(Cache.getRequests()).isEqualTo(0);
-		assertThat(Cache.getHits()).isEqualTo(0);
-		assertThat(Cache.getMisses()).isEqualTo(0);
+		assertThat(Cache.getRequests()).isZero();
+		assertThat(Cache.getHits()).isZero();
+		assertThat(Cache.getMisses()).isZero();
 	}
 
-	@Disabled
 	@Test
 	void schedulerTest() throws InterruptedException {
 		Cache.add("pesquisa", SearchType.CURRENT, DataSource.WEATHERBIT, data, 1);

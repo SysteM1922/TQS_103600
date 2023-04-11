@@ -25,6 +25,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @WebMvcTest(AirQualityController.class)
 public class AirQualityControllerTest {
 
@@ -58,7 +60,7 @@ public class AirQualityControllerTest {
 				.andReturn();
 		String response = result.getResponse().getContentAsString();
 		WBCurrentResponse new_response = mapper.readValue(response, WBCurrentResponse.class);
-		assert (new_response.equals(CURRENT_CITY_RESPONSE));
+		assertEquals(CURRENT_CITY_RESPONSE, new_response);
 		verify(weatherBitService, times(1)).getCurrent(CITY);
 	}
 	
@@ -70,7 +72,7 @@ public class AirQualityControllerTest {
 				.andExpect(status().isOk())
 				.andReturn();
 		String response = result.getResponse().getContentAsString();
-		assert (response.equals(""));
+		assertEquals("", response);
 		verify(weatherBitService, times(1)).getCurrent(INVALID_CITY);
 	}
 
@@ -83,7 +85,7 @@ public class AirQualityControllerTest {
 				.andReturn();
 		String response = result.getResponse().getContentAsString();
 		WBForecastResponse new_response = mapper.readValue(response, WBForecastResponse.class);
-		assert (new_response.equals(FORECAST_CITY_RESPONSE));
+		assertEquals(FORECAST_CITY_RESPONSE, new_response);
 		verify(weatherBitService, times(1)).getForecast(CITY);
 	}
 
@@ -95,33 +97,33 @@ public class AirQualityControllerTest {
 				.andExpect(status().isOk())
 				.andReturn();
 		String response = result.getResponse().getContentAsString();
-		assert (response.equals(""));
+		assertEquals("", response);
 		verify(weatherBitService, times(1)).getForecast(INVALID_CITY);
 	}
 
 	@Test
 	public void whenGetHistory_thenReturnData() throws Exception {
-		Mockito.when(weatherBitService.getHistory(CITY)).thenReturn(ResponseEntity.ok(HISTORY_CITY_RESPONSE));
+		Mockito.when(weatherBitService.getHistory(CITY, null, null)).thenReturn(ResponseEntity.ok(HISTORY_CITY_RESPONSE));
 		MvcResult result = mvc.perform(
 				get("/api/airquality/history/" + CITY).contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andReturn();
 		String response = result.getResponse().getContentAsString();
 		WBHistoryResponse new_response = mapper.readValue(response, WBHistoryResponse.class);
-		assert (new_response.equals(HISTORY_CITY_RESPONSE));
-		verify(weatherBitService, times(1)).getHistory(CITY);
+		assertEquals(HISTORY_CITY_RESPONSE, new_response);
+		verify(weatherBitService, times(1)).getHistory(CITY, null, null);
 	}
 
 	@Test
 	public void whenGetHistory_thenReturnInvalid() throws Exception {
-		Mockito.when(weatherBitService.getHistory(INVALID_CITY)).thenReturn(ResponseEntity.ok(INVALID_CITY_RESPONSE));
+		Mockito.when(weatherBitService.getHistory(INVALID_CITY, null, null)).thenReturn(ResponseEntity.ok(INVALID_CITY_RESPONSE));
 		MvcResult result = mvc.perform(
 				get("/api/airquality/history/" + INVALID_CITY).contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andReturn();
 		String response = result.getResponse().getContentAsString();
-		assert (response.equals(""));
-		verify(weatherBitService, times(1)).getHistory(INVALID_CITY);
+		assertEquals("", response);
+		verify(weatherBitService, times(1)).getHistory(INVALID_CITY, null, null);
 	}
 
 	@Test
@@ -135,7 +137,7 @@ public class AirQualityControllerTest {
 				.andReturn();
 		String response = result.getResponse().getContentAsString();
 		WBHistoryResponse new_response = mapper.readValue(response, WBHistoryResponse.class);
-		assert (new_response.equals(HISTORY_WITH_DATES_CITY_RESPONSE));
+		assertEquals(HISTORY_WITH_DATES_CITY_RESPONSE, new_response);
 		verify(weatherBitService, times(1)).getHistory(CITY, DATE1, DATE2);
 	}
 
@@ -149,7 +151,7 @@ public class AirQualityControllerTest {
 				.andExpect(status().isOk())
 				.andReturn();
 		String response = result.getResponse().getContentAsString();
-		assert (response.equals(""));
+		assertEquals("", response);
 		verify(weatherBitService, times(1)).getHistory(INVALID_CITY, DATE1, DATE2);
 	}
 
@@ -163,7 +165,7 @@ public class AirQualityControllerTest {
 				.andExpect(status().isOk())
 				.andReturn();
 		String response = result.getResponse().getContentAsString();
-		assert (response.equals(""));
+		assertEquals("", response);
 		verify(weatherBitService, times(1)).getHistory(CITY, DATE2, DATE1);
 	}
 
@@ -177,7 +179,7 @@ public class AirQualityControllerTest {
 				.andExpect(status().isOk())
 				.andReturn();
 		String response = result.getResponse().getContentAsString();
-		assert (response.equals(""));
+		assertEquals("", response);
 		verify(weatherBitService, times(1)).getHistory(CITY, DATE1, DATE1);
 	}
 
